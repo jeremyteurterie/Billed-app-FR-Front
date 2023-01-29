@@ -24,19 +24,19 @@ export default class NewBill {
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
 
-    // switch (fileType) {
-    //   case "image/jpeg":
-    //   case "image/jpg":
-    //   case "image/png":
-    //     document
-    //       .querySelector(".file-input-error-message")
-    //       .classList.add("hide");
-    //     break;
-    //   default:
-    //     document
-    //       .querySelector(".file-input-error-message")
-    //       .classList.remove("hide");
-    // }
+    switch (fileType) {
+      case "image/jpeg":
+      case "image/jpg":
+      case "image/png":
+        document
+          .querySelector(".file-input-error-message")
+          .classList.add("hide");
+        break;
+      default:
+        document
+          .querySelector(".file-input-error-message")
+          .classList.remove("hide");
+    }
 
     const formData = new FormData();
     const email = JSON.parse(localStorage.getItem("user")).email;
