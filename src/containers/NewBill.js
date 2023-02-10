@@ -17,32 +17,31 @@ export default class NewBill {
     this.billId = null;
     new Logout({ document, localStorage, onNavigate });
   }
+
   handleChangeFile = (e) => {
     e.preventDefault();
+    const fileInput = this.document.querySelector(`input[data-testid="file"]`); // récupère l'input file
     const file = this.document.querySelector(`input[data-testid="file"]`)
       .files[0];
     const filePath = e.target.value.split(/\\/g);
     const fileName = filePath[filePath.length - 1];
 
-    switch (fileType) {
-      case "image/jpeg":
-      case "image/jpg":
-      case "image/png":
-        document
-          .querySelector(".file-input-error-message")
-          .classList.add("hide");
-        break;
-      default:
-        document
-          .querySelector(".file-input-error-message")
-          .classList.remove("hide");
-    }
+    const fileExtension = fileName.split(".").pop(); // récupère seulement l'extension du fichier
+    const fileFormats = ["jpg", "jpeg", "png"]; // défini formats autorisés
 
     const formData = new FormData();
     const email = JSON.parse(localStorage.getItem("user")).email;
     formData.append("file", file);
     formData.append("email", email);
 
+    //si le format du fichier uploadé est différent des formats acceptés
+    if (!fileFormats.includes(fileExtension)) {
+      // on affiche une alerte avec un message d'erreur et on vide l'input
+      alert(
+        "Le format du fichier sélectionné est interdit. Veuillez sélectionner un fichier png, jpg ou jpeg."
+      );
+      fileInput.value = "";
+    }
     this.store
       .bills()
       .create({
@@ -52,13 +51,14 @@ export default class NewBill {
         },
       })
       .then(({ fileUrl, key }) => {
-        console.log(fileUrl);
+        console.log(fileUrl, fileName);
         this.billId = key;
         this.fileUrl = fileUrl;
         this.fileName = fileName;
       })
       .catch((error) => console.error(error));
   };
+
   handleSubmit = (e) => {
     e.preventDefault();
     console.log(
