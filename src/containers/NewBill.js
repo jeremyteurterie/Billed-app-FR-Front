@@ -20,28 +20,22 @@ export default class NewBill {
 
   handleChangeFile = (e) => {
     e.preventDefault();
-    const fileInput = this.document.querySelector(`input[data-testid="file"]`); // récupère l'input file
-    const file = this.document.querySelector(`input[data-testid="file"]`)
-      .files[0];
-    const filePath = e.target.value.split(/\\/g);
-    const fileName = filePath[filePath.length - 1];
+    const fileInput = document.querySelector('input[data-testid="file"]');
+    const selectedFile = fileInput.files[0];
+    const fileName = selectedFile.name;
+    const fileExtension = fileName.split(".").pop();
+    const allowedFormats = ["jpg", "jpeg", "png"];
 
-    const fileExtension = fileName.split(".").pop(); // récupère seulement l'extension du fichier
-    const fileFormats = ["jpg", "jpeg", "png"]; // défini formats autorisés
+    if (!allowedFormats.includes(fileExtension)) {
+      alert("Seulement les formats jpg, jpeg et png sont autorisés.");
+      fileInput.value = "";
+      return;
+    }
 
     const formData = new FormData();
-    const email = JSON.parse(localStorage.getItem("user")).email;
-    formData.append("file", file);
-    formData.append("email", email);
-
-    //si le format du fichier uploadé est différent des formats acceptés
-    if (!fileFormats.includes(fileExtension)) {
-      // on affiche une alerte avec un message d'erreur et on vide l'input
-      alert(
-        "Le format du fichier sélectionné est interdit. Veuillez sélectionner un fichier png, jpg ou jpeg."
-      );
-      fileInput.value = "";
-    }
+    const user = JSON.parse(localStorage.getItem("user"));
+    formData.append("file", selectedFile);
+    formData.append("email", user.email);
     this.store
       .bills()
       .create({
