@@ -162,10 +162,10 @@ describe("Given I am a user connected as Employee", () => {
       });
       // créé les données d'une note de frais à tester
       const sampleBill = {
-        type: "Hôtel et logement",
-        name: "encore",
-        date: "2004-04-04",
-        amount: 400,
+        type: "Transports",
+        name: "test",
+        date: "2007-10-10",
+        amount: 700,
         vat: 80,
         pct: 20,
         commentary: "séminaire billed",
@@ -175,7 +175,6 @@ describe("Given I am a user connected as Employee", () => {
         status: "pending",
       };
 
-      // charge les données dans les champs correspondants
       screen.getByTestId("expense-type").value = sampleBill.type;
       screen.getByTestId("expense-name").value = sampleBill.name;
       screen.getByTestId("datepicker").value = sampleBill.date;

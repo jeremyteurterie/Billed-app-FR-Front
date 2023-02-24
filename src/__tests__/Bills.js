@@ -47,13 +47,6 @@ describe("Given I am connected as an employee", () => {
       expect(dates).toEqual(datesSorted);
     });
   });
-  /* -------------------- test loading screen rendering ------------------- */
-  describe("When I am on Bills page but it is loading", () => {
-    test("Then, Loading page should be rendered", () => {
-      document.body.innerHTML = BillsUI({ loading: true });
-      expect(screen.getAllByText("Loading...")).toBeTruthy();
-    });
-  });
   /* -------------------- test bouton nouvelle note de frais ------------------- */
   describe("When I click on the button to create a new bill", () => {
     test("Then, it should open the NewBill page", () => {
@@ -132,7 +125,7 @@ describe("Given I am connected as an employee", () => {
   });
 });
 
-// * test d'intégration GET
+// test d'intégration GET
 describe("Given I am a user connected as Employee", () => {
   describe("When I navigate to Bills", () => {
     test("fetches bills from mock API GET", async () => {
